@@ -1,0 +1,36 @@
+
+<div style="display: flex; flex-direction: column;">
+    <div style="flex: 1 1 auto;"></div>
+    <img mat-card-image src="/assets/LOGO.JPG" style="width: 350px; height: 300px; align-self: center;">
+    <div style="align-self: center;"><h1>Work in progress...</h1> </div>
+    <div style="flex: 1 1 auto;"></div>
+</div>
+
+
+<mat-card class="vetrina">
+  <button mat-icon-button (click)="back()">
+    <mat-icon>arrow_back_ios</mat-icon>
+  </button>
+  <div class="wineCard" routerLink="/shop/{{wineID}}">
+    <img mat-card-image src="{{'data:image/png;base64,' + wines[index].foto}}">
+    <mat-card-content>
+      <mat-card-title>{{wines[index].nome}}</mat-card-title>
+      <mat-card-subtitle>{{wines[index].vino_cantina.nome}}</mat-card-subtitle>
+      <h3>{{wines[index].prezzo}}$</h3>
+    </mat-card-content>
+  </div>
+  <div class="recensione">
+      <mat-card-header>
+        <div mat-card-avatar class="example-header-image"></div>
+        <mat-card-title>{{review.recensione_sommelier.nome}}</mat-card-title>
+        <mat-card-subtitle>{{review.data}}</mat-card-subtitle>
+      </mat-card-header>
+      <mat-card-content>
+        {{review.descrizione}}
+      </mat-card-content>
+  </div>
+  <span class="spacer"></span>
+  <button mat-icon-button (click)="next()">
+    <mat-icon>arrow_forward_ios</mat-icon>
+  </button>
+</mat-card>

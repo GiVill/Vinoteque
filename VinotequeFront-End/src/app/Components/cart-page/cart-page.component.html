@@ -1,0 +1,212 @@
+<div class="cartPage">
+  <mat-card-title>Carrello</mat-card-title>
+  <mat-divider class="central">
+  </mat-divider>
+  <div class="content">
+    <div class="itemContainer">
+      <div class="details">
+        <span style="width: 65px;"></span>
+        <div style="width: 153px">Nome:</div>
+        <span class="spacer"></span>
+        <div style="width: 90px; text-align: center;">Quantità:</div>
+        <span class="spacer"></span>
+        <div style="width: 62px;">Prezzo:</div>
+        <span class="spacer"></span>
+        <span style="width: 126px;"></span>
+      </div>
+      <app-item-cart (valueChanged)="reload($event)" *ngFor="let wine of cart.vini index as i" [index]="i" [idWine]="wine" [cart]="cart">
+      </app-item-cart>
+    </div>
+    <div class="spacer"></div>
+    <mat-card class="actions">
+      <mat-card-title style="margin-left: 10px;">Totale:{{(cart.totale).toFixed(2)}}</mat-card-title>
+      <mat-card-content>
+    <span class="spacer"></span>
+    <span class="spacer"></span>
+    </mat-card-content>
+
+
+
+    <mat-stepper orientation="vertical">
+      <mat-step>
+        <ng-template matStepLabel><strong>Indirizzo di spedizione</strong></ng-template>
+        <ng-template matStepContent>
+          <form #indirizzoForm="ngForm" (ngSubmit)="checkAddress(indirizzoForm)">
+            <table cellspacing="0">
+              <tr>
+                <td>
+                  <mat-form-field>
+                    <mat-label>Via</mat-label>
+                    <input matInput  [(ngModel)]="user.via" name="via"ngModel required>
+                  </mat-form-field>
+                </td>
+                <td>
+                  <mat-form-field>
+                    <mat-label>N. Civico</mat-label>
+                    <input matInput  [(ngModel)]="user.civico" name="civico" ngModel required>
+                  </mat-form-field>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <mat-form-field>
+                    <mat-label>CAP</mat-label>
+                    <input matInput  [(ngModel)]="user.cap" name="cap" ngModel required>
+                  </mat-form-field>
+                </td>
+                <td>
+                  <mat-form-field>
+                    <mat-label>Telefono</mat-label>
+                    <input matInput  [(ngModel)]="user.telefono" name="telefono" ngModel required>
+                  </mat-form-field>
+                </td>
+              </tr>
+            </table>
+            <button mat-raised-button matStepperNext class="stepperNextButton" type="submit">
+              Successivo
+            </button>
+          </form>
+        </ng-template>
+      </mat-step>
+      <mat-step>
+        <ng-template matStepLabel style="display: flex; flex-direction: row;"><strong>Metodo Spedizione</strong><mat-icon style="color: green;">local_shipping</mat-icon></ng-template>
+        <ng-template matStepContent>
+          <mat-radio-group style="display: flex; flex-direction: column;">
+            <mat-radio-button>
+              Spedizione standard (1 settimana)
+             </mat-radio-button>
+             <mat-radio-button>
+              Spedizione rapida (48h)
+             </mat-radio-button>
+           </mat-radio-group>
+           <div style="margin-top: 3px">
+            <button mat-button matStepperPrevious class="stepperPreviousButton">Precedente</button>
+            <button mat-button matStepperNext class="stepperNextButton">Successivo</button>
+           </div>
+        </ng-template>
+      </mat-step>
+      <mat-step>
+        <ng-template matStepLabel><strong>Metodo di pagamento</strong></ng-template>
+        <ng-template matStepContent>
+          <mat-radio-group style="display: flex; flex-direction: column;">
+            <mat-radio-button (click)="setNormal()">
+              Contrassegno
+             </mat-radio-button>
+             <mat-radio-button (click)="setPaypal()">
+              Paypal
+             </mat-radio-button>
+           </mat-radio-group>
+           <div style="margin-top: 3px">
+            <button mat-button matStepperPrevious class="stepperPreviousButton">Precedente</button>
+            <button mat-button matStepperNext class="stepperNextButton">Successivo</button>
+           </div>
+        </ng-template>
+      </mat-step>
+      <mat-step>
+        <ng-template matStepLabel><strong>Inserisci codice sconto<em>(facoltativo)</em></strong></ng-template>
+        <div style="display: flex;">
+          <input #promoInput type="text" #codiceSconto placeholder="Codice sconto">
+          <button mat-flat-button style="margin-left: 5px; background-color: lightyellow;
+          z-index: 0;" (click)="checkPromo(promoInput)">Verifica</button>
+        </div>
+        <div style="margin-top: 3px">
+          <button mat-button matStepperPrevious class="stepperPreviousButton">Precedente</button>
+          <button mat-button matStepperNext class="stepperNextButton" (click)="newOrder()">Successivo</button>
+         </div>
+      </mat-step>
+      <mat-step>
+        <ng-template matStepLabel><strong>Conferma ordine</strong></ng-template>
+        <div style="display: flex; flex-direction: column;" *ngIf="!paypalMethod">
+          <span class="spacer"></span>
+          <button mat-fab extended style="background-color: lightgreen; color: black;">Procedi con l'acquisto</button>
+          <span class="spacer"></span>
+        </div>
+      </mat-step>
+    </mat-stepper>
+    <ngx-paypal [ngStyle]="{'display': paypalMethod ? '' : 'none'}" [config]="payPalConfig"></ngx-paypal>
+  </mat-card>
+  </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- <div class="container">
+  <div>
+    <div style="display: flex;">
+      <h1><strong>Carrello</strong></h1>
+      <p style="margin-left: 20px; align-self: center;">(num articoli)</p>
+    </div>
+    <div style="display: flex;">
+      <p>PRODOTTO</p>
+      <p style="margin-left: 300px;">QUANTITA'</p>
+      <p style="margin-left: 130px;">PREZZO</p>
+    </div>
+    <span class="spacer"></span>
+    <div class="item-container">
+      <app-item-cart></app-item-cart>
+      <app-item-cart></app-item-cart>
+      <app-item-cart></app-item-cart>
+      <app-item-cart></app-item-cart>
+      <app-item-cart></app-item-cart>
+    </div>
+    <div style="display: flex;">
+      <h4 style="margin-left: 490px;"><strong>TOTALE PRODOTTI</strong></h4>
+      <h4 style="margin-left: 65px;"><strong>10,90€</strong></h4>
+    </div>
+  </div>
+  <mat-card style="margin-left: 136px; background-color: lightyellow; width: 400px; max-height: 450px;">
+    <div style="display: flex;">
+      <p style="margin-top: 10px; margin-left: 15px;"><strong>TOTALE PRODOTTI</strong></p>
+      <span class="spacer"></span>
+      <p style="margin-top: 10px; margin-right: 15px;"><strong>10,90€</strong></p>
+    </div>
+    <p style="margin-left: 15px;">NAZIONE DI SPEDIZIONE:   (GETNAZIONE)</p>
+    <p style="margin-left: 15px; color: green;"><mat-icon style="color: green;">local_shipping</mat-icon> CIAO SONO UN CAMIONCINO DELLE CONSEGNE</p>
+    <p style="margin-left: 15px;">METODO DI PAGAMENTO:</p>
+    <mat-radio-group style="margin-left: 15px; display: flex; flex-direction: column;">
+      <mat-radio-button>
+        Bestemmie
+      </mat-radio-button>
+      <mat-radio-button>
+        Finocchi
+      </mat-radio-button>
+      <mat-radio-button>
+        Sgnaffi sul gnulo
+      </mat-radio-button>
+    </mat-radio-group>
+    <div style="display: flex;">
+      <input type="text" placeholder="Codice sconto" style="margin-left: 15px;">
+      <button mat-flat-button style="margin-left: 5px; background-color: lightyellow;">Inserisci</button>
+    </div>
+    <div style="margin-left: 15px; display: flex;">
+      <h4><strong>TOTALE ORDINE</strong></h4>
+      <span class="spacer"></span>
+      <h4><strong>(totale)</strong></h4>
+    </div>
+    <span class="spacer"></span>
+    <button mat-raised-button style="background-color: lightgreen;">PAGA BASTARDO!</button>
+    <span class="spacer"></span>
+  </mat-card>
+</div> -->

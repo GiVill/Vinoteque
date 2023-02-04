@@ -1,0 +1,42 @@
+.item-card{
+  margin-top: 5px;
+}
+
+mat-card-content{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+
+.quantity{
+  margin-top: 5%;
+  width: 90px;
+}
+
+button{
+  z-index: 0;
+}
+
+.item-img{
+  height: 100px;
+  width:60px;
+}
+
+.spacer {
+  flex: 1 1 auto;
+}
+
+.small{
+  height: 25px;
+  width: 25px;
+}
+
+.textContainer{
+  font-size: 16px;
+  align-self: center;
+}
+
+.favorite:hover{
+  color: red;
+}

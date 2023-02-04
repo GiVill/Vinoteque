@@ -1,0 +1,47 @@
+.cart{
+  width: 60px;
+  height: 60px;
+
+}
+.cart:hover{
+  color: rgb(0, 92, 0);
+}
+
+mat-icon{
+  scale: 150%;
+}
+
+.favorite{
+  width: 60px;
+  height: 60px;
+}
+
+.favorite:hover{
+  border-color: red;
+}
+
+mat-card-actions {
+  display: flex;
+  justify-content: center;
+}
+
+
+.card {
+  box-shadow: none;
+  background-color: white;
+  text-align:center;
+  max-width: 180px;
+  margin-top: 10px;
+  margin-left: 10px;
+  margin-bottom: 10px;
+}
+
+.card > img{
+  width: 180px;
+  height: 323.76px;
+}
+
+
+mat-card:hover{
+  cursor: pointer;
+}
